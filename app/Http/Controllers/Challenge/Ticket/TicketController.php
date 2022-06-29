@@ -15,6 +15,16 @@ class TicketController extends Controller
      */
     public function index()
     {
+        $order = 'asc';
+        $perPage = 10;
+
+        return Ticket::with(['createdBy', 'updatedBy', 'deletedBy'])->orderBy('updated_at', $order)
+            ->paginate(
+                request(
+                    'per_page',
+                    \Request::get('per_page') ?? $perPage
+                )
+            );
     }
 
     /**
