@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Challenge\Airline;
 
 use App\Models\Challenge\Airline\Airline;
 use Illuminate\Http\Request;
@@ -15,7 +15,16 @@ class AirlineController extends Controller
      */
     public function index()
     {
-        //
+        $order = 'asc';
+        $perPage = 10;
+
+        return Airline::with(['createdBy', 'updatedBy', 'deletedBy'])->orderBy('updated_at', $order)
+            ->paginate(
+                request(
+                    'per_page',
+                    \Request::get('per_page') ?? $perPage
+                )
+            );
     }
 
     /**

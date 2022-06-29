@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Challenge\Ticket;
 
 use App\Models\Challenge\Ticket\Ticket;
 use Illuminate\Http\Request;
@@ -15,7 +15,6 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
