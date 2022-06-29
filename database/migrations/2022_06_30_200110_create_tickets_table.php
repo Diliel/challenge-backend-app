@@ -35,6 +35,18 @@ class CreateTicketsTable extends Migration
             $table->foreign('airline_id')
                 ->references('id')
                 ->on('airlines');
+
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users');
+
+            $table->foreign('updated_by')
+                ->references('id')
+                ->on('users');
+
+            $table->foreign('deleted_by')
+                ->references('id')
+                ->on('users');
         });
     }
 
