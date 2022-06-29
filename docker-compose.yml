@@ -31,8 +31,8 @@ services:
     environment:
       MYSQL_HOST: 0.0.0.0
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: homestead
-      MYSQL_USER: homestead
+      MYSQL_DATABASE: polimundo_db
+      MYSQL_USER: polimundo
       MYSQL_PASSWORD: secret
 volumes:
     mysql:
