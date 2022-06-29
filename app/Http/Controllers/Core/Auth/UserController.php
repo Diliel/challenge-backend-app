@@ -18,7 +18,7 @@ class UserController extends Controller
         $order = 'asc';
         $perPage = 10;
 
-        return User::with(['createdBy', 'updatedBy', 'deletedBy'])->orderBy('updated_at', $order)
+        return User::orderBy('updated_at', $order)
             ->paginate(
                 request(
                     'per_page',

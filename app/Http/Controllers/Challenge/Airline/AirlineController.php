@@ -36,7 +36,7 @@ class AirlineController extends Controller
     public function show($id)
     {
         return response()->json([
-            'objAirline' => Airline::findOrFail($id)
+            'objAirline' => Airline::with(['createdBy', 'updatedBy', 'deletedBy'])->findOrFail($id)
         ]);
     }
 }

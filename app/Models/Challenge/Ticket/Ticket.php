@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\UuidTrait;
+use App\Models\Challenge\Airline\Airline;
 
 class Ticket extends Model
 {
@@ -32,4 +33,9 @@ class Ticket extends Model
         'updated_by',
         'deleted_by',
     ];
+
+    public function airline()
+    {
+        return $this->belongsTo(Airline::class);
+    }
 }

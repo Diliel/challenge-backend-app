@@ -18,7 +18,7 @@ class TicketController extends Controller
         $order = 'asc';
         $perPage = 10;
 
-        return Ticket::with(['createdBy', 'updatedBy', 'deletedBy'])->orderBy('updated_at', $order)
+        return Ticket::with(['createdBy', 'updatedBy', 'deletedBy', 'airline'])->orderBy('updated_at', $order)
             ->paginate(
                 request(
                     'per_page',
@@ -36,7 +36,7 @@ class TicketController extends Controller
     public function show($id)
     {
         return response()->json([
-            'objTicket' => Ticket::findOrFail($id)
+            'objTicket' => Ticket::with(['createdBy', 'updatedBy', 'deletedBy', 'airline'])->findOrFail($id)
         ]);
     }
 }
