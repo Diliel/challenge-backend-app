@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Challenge\Airline;
 
-use App\Models\Challenge\Airline\Airline;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Services\Challenge\Airline\AirlineService;
 
 class AirlineController extends Controller
 {
+    public function __construct(AirlineService $service)
+    {
+        $this->service = $service;
+    }
     /**
-     * Display a listing of the resource.
+     * Método para listar las aerolíneas
      *
      * @return \Illuminate\Http\Response
      */
@@ -17,26 +20,28 @@ class AirlineController extends Controller
     {
         $order = 'asc';
         $perPage = 10;
-
-        return Airline::with(['createdBy', 'updatedBy', 'deletedBy'])->orderBy('updated_at', $order)
+        $objAirline = $this->service->showAll()->orderBy('updated_at', $order)
             ->paginate(
                 request(
                     'per_page',
                     \Request::get('per_page') ?? $perPage
                 )
             );
+
+        if (!$objAirline) {
+            return response()->json(['isvalid' => false, 'errors' => 'No existen registros'], 404);
+        }
+        return $objAirline;
     }
 
     /**
-     * Display the specified resource.
+     * Método para obtener un aereolínea en específico.
      *
      * @param  \App\Models\Airline  $airline
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return response()->json([
-            'objAirline' => Airline::with(['createdBy', 'updatedBy', 'deletedBy'])->findOrFail($id)
-        ]);
+        return $this->service->show($id);
     }
 }

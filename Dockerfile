@@ -24,13 +24,6 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # PHP Apache
 COPY  docker/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY  docker/php.ini /usr/local/etc/php/php.ini
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# COPY  . /var/www/html/
-# COPY  docker/.env-pro /var/www/html/.env
-# WORKDIR /var/www/html/
-
-# RUN chown -R www-data:www-data /var/www/html  \
-    # && composer install  && composer dumpautoload 

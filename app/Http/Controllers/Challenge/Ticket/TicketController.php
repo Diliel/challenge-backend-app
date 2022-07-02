@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Challenge\Ticket;
 
-use App\Models\Challenge\Ticket\Ticket;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Services\Challenge\Ticket\TicketService;
 
 class TicketController extends Controller
 {
+    public function __construct(TicketService $service)
+    {
+        $this->service = $service;
+    }
     /**
-     * Display a listing of the resource.
+     * Método para listar los tickets.
      *
      * @return \Illuminate\Http\Response
      */
@@ -17,26 +20,28 @@ class TicketController extends Controller
     {
         $order = 'asc';
         $perPage = 10;
-
-        return Ticket::with(['createdBy', 'updatedBy', 'deletedBy', 'airline'])->orderBy('updated_at', $order)
+        $objAirline = $this->service->showAll()->orderBy('updated_at', $order)
             ->paginate(
                 request(
                     'per_page',
                     \Request::get('per_page') ?? $perPage
                 )
             );
+
+        if (!$objAirline) {
+            return response()->json(['isvalid' => false, 'errors' => 'No existen registros'], 404);
+        }
+        return $objAirline;
     }
 
     /**
-     * Display the specified resource.
+     * Método para obtener un ticket en específico.
      *
-     * @param  \App\Models\Ticket  $ticket
+     * @param  \App\Models\Airline  $airline
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return response()->json([
-            'objTicket' => Ticket::with(['createdBy', 'updatedBy', 'deletedBy', 'airline'])->findOrFail($id)
-        ]);
+        return $this->service->show($id);
     }
 }
